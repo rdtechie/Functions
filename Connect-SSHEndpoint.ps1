@@ -36,7 +36,7 @@ function Connect-SSHEndpoint
             $credentials = Get-Credential
 
             Then we can connect with the function:
-            Connect-Enclosure -Node 'ssh-enpoint-01.domain.local' -KeyFile 'D:\Data\Powershell\#\verdi-ssh-pk-openss' -Username 'admin' -Verbose
+            Connect-Enclosure -Node 'ssh-enpoint-01.domain.local' -KeyFile 'D:\Data\keyfile' -Username 'admin' -Verbose
 
             .LINK
             http://www.powershelladmin.com/wiki/SSH_from_PowerShell_using_the_SSH.NET_library#Downloads
@@ -44,7 +44,7 @@ function Connect-SSHEndpoint
             .NOTES
             Version: 1.0
             Prerequisites: SSH-Sessions - http://www.powershelladmin.com/wiki/SSH_from_PowerShell_using_the_SSH.NET_library#Downloads
-            Author: Richard Diphoorn & Norman Losekoot
+            Author: Richard Diphoorn
             Creation Date: 2015-06-03
             Purpose/Change: Initial Release
     #>
