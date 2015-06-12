@@ -10,7 +10,7 @@ Function Get-ComputerDetails
     {
         try
         {
-            $customObject = [pscustomobject][ordered]@{
+            [pscustomobject][ordered]@{
                 Name         = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Name
                 Manufacturer = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Manufacturer
                 Model        = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Model
@@ -22,7 +22,5 @@ Function Get-ComputerDetails
             Write-Error -Message "The command failed for computer $node. Message: $_.Exception.Message"
             break
         }
-        $result += $customObject
     }
-    $result
 }
