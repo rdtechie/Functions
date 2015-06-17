@@ -1,26 +1,38 @@
-#requires -Version 1
+#requires -Version 2
 Function Get-ComputerDetails
 {
     [cmdletbinding()]
-    Param([string[]]$Computer)
     
-    $result = @()
+    param (
+    
+        [ValidateNotNullOrEmpty()]
+        [string[]]$ComputerName = $env:COMPUTERNAME
+    
+    )
 
-    foreach ($node in $Computer)
+    foreach ($node in $ComputerName)
     {
+        
         try
         {
+            $computerSystem		= Get-WmiObject -Class 'Win32_ComputerSystem' -ComputerName $node -ErrorAction Stop
+            $computerBios		= Get-WmiObject -Class 'Win32_Bios' -ComputerName $node -ErrorAction Stop
+            
             [pscustomobject][ordered]@{
-                Name         = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Name
-                Manufacturer = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Manufacturer
-                Model        = (Get-WmiObject -Class Win32_ComputerSystem -ComputerName $node -ErrorAction Stop).Model
-                Serial       = (Get-WmiObject -Class Win32_Bios -ComputerName $node -ErrorAction Stop).SerialNumber
-            }
-        }
+                Name         	= $computerSystem.Name
+                Manufacturer 	= $computerSystem.Manufacturer
+                Model        	= $computerSystem.Model
+                Serial       	= $computerBios.SerialNumber
+            } # End of custom object
+            
+        } # End of try
+        
         catch 
         {
             Write-Error -Message "The command failed for computer $node. Message: $_.Exception.Message"
             break
-        }
-    }
-}
+        }# End of Catch
+    
+    }# End of foreach
+
+}# End of function
